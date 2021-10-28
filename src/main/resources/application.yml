@@ -1,0 +1,21 @@
+server:
+  port : 8080
+#  servlet:
+#    context-path: /ui
+
+spring:
+  profiles:
+    active: local
+
+  thymeleaf:
+    cache: false # 운영 true
+
+logging:
+  level:
+    root : info
+    org.springframework: error
+    com.example.springboot: debug
+#  pattern:
+#    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+#    file: "%d %p %c{1.} [%t] %m%n"
+#  file: "app.log"
