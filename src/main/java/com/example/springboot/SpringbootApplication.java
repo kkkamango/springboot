@@ -12,17 +12,6 @@ public class SpringbootApplication {
     private static final Logger log = LoggerFactory.getLogger(SpringbootApplication.class);
 
     public static void main(String[] args) {
-
-        // Lombok builder
-        Apple a = Apple.builder().weight(10).build();
-        Apple b = Apple.builder()
-                .color("red")
-                .name("빨간사과")
-                .weight(30)
-                .build();
-        log.debug(a.toString());
-        log.debug(b.toString());
-
         SpringApplication.run(SpringbootApplication.class, args);
     }
 
