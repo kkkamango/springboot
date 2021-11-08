@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue props 속성</title>
+</head>
+<body>
+    <div id="container">
+        <span>{{message}}</span>
+
+
+        <!-- 상위 -> 하위 컴포넌트로 데이터 전달 -->
+        <child-component :propsdata="message"></child-component>
+<!--        :propsdata="message" 상위 컴포넌트의 message 속성 값을 하위 컴포넌트의 propsdata로 전달 -->
+<!--        뷰 인스턴스의 data 속성에 정의된 message 속성을 하위 컴포넌트에 props로 전달하여 화면에 나타남-->
+
+
+        <!-- 하위 -> 상위 컴포넌트로 이벤트 전달 -->
+        <my-local-component @show-log='printText'></my-local-component>
+<!--            v-on:show-log 하위 컴포넌트 이벤트 명 -->
+<!--            printText 상위 컴포넌트의 메서드 명 -->
+<!--        버튼 클릭 ->  @click="showLog" -> showLog() 실행 -->
+<!--        this.$emit('show-log') 실행 -> show-log 이벤트 발생-->
+<!--        컴포넌트에 정의한 @show-log에 전달, 대상 메서드인 최상위 컴포넌트의 메서드 printText 실행-->
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script type="text/javascript">
+        // 상위 -> 하위 컴포넌트로 데이터 전달
+        Vue.component('child-component', {
+            // template : '<p>hey !</p>'
+            props : ['propsdata'] // props 속성으로 propsdata 정의
+            , template : '<p>{{propsdata}}</p>' // HTML에 컴포넌트 태그 추가
+        });
+
+        // 하위 -> 상위 컴포넌트로 이벤트 전달
+        Vue.component('my-local-component', {
+            template: '<button @click="showLog">show</button>'
+            , methods : {
+                showLog : function(){
+                    this.$emit('show-log'); // 이벤트 발생
+                }
+            }
+        });
+
+        let vm = new Vue({
+            el : '#container'
+            , data : {
+                message : 'Hello Vue'
+            }
+            // ,    components : {
+            //     'my-local-component' : {
+            //         template: '<p>지역 컴포넌트</p>'
+            //     }
+            // }
+            , methods: {
+                printText : function(){
+                    console.log('received an event.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
