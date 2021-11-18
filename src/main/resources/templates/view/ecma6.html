@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECMAscript6</title>
+</head>
+<body>
+<!--https://poiemaweb.com/es6-enhanced-object-property-->
+
+<script type="text/javascript">
+    console.log(`6.5 Enhanced Object property
+    객체 리터럴 프로퍼티 기능 확장`);
+
+    console.log('프로퍼티 축약 표현');
+    // 프로퍼티 이름은 변수의 이름으로 자동 생성
+    let x = 1, y = 2;
+    const object = { x, y }; // { x: 1, y: 2 }
+    console.log(object);
+
+    console.log('프로퍼티 키 동적 생성');
+    // 문자열 또는 문자열로 변환 가능한 값을 반환하는 표현식을 사용해 프로퍼티 키를 동적으로 생성할 수 있다.
+    // 단, 프로퍼티 키로 사용할 표현식을 대괄호([…])로 묶어야 한다.
+    // 이를 계산된 프로퍼티 이름(Computed property name)이라 한다.
+    const prefix = 'hi';
+    let i = 0;
+    const obj = {
+        [`${prefix}${++i}`] : i,
+        [`${prefix}${++i}`] : i,
+        [`${prefix}${++i}`] : i,
+    };
+
+    console.log(obj);
+
+
+    console.log('메소드 축약 표현');
+    const fn_sort = {
+        name : 'Keity',
+        sayHi() {
+            console.log('Hi! ' + this.name);
+        }
+    };
+    fn_sort.sayHi();
+
+
+    console.log('__proto__ 프로퍼티에 의한 상속');
+    // 객체 리터럴 내부에서 __proto__ 프로퍼티를 직접 설정할 수 있다.
+    // 이것은 객체 리터럴에 의해 생성된 객체의 __proto__ 프로퍼티에 다른 객체를 직접 바인딩하여 상속을 표현할 수 있음을 의미
+    const parent = {
+        name : 'parent',
+        sayHi() {
+            console.log(`Hi! ${this.name}`);
+        }
+    };
+    const child = {
+        __proto__ : parent,
+        name : 'child'
+    };
+
+    parent.sayHi(); // Hi! parent
+    child.sayHi(); // Hi! child
+
+
+    console.log(`6.6 Destructuring
+    디스트럭처링`);
+    // 디스트럭처링(Destructuring)은 구조화된 배열 또는 객체를 Destructuring(비구조화, 파괴)하여 개별적인 변수에 할당하는 것이다.
+    // 배열 또는 객체 리터럴에서 필요한 값만을 추출하여 변수에 할당하거나 반환할 때 유용하다.
+
+    console.log('배열 디스트럭처링');
+    const array = [1, 2, 3];
+    const [one, two, three] = array;
+    console.log(one, two, three);
+
+
+    console.log('객체 디스트럭처링');
+    // 객체의 각 프로퍼티를 객체로부터 추출하여 변수 리스트에 할당
+    // 프로퍼티 키를 기준으로 디스트럭처링 할당이 이루어진다. 순서는 의미가 없다.
+    const name = {
+        firstName : 'first',
+        lastName : 'last'
+    };
+    const {firstName, lastName} = name;
+    console.log(firstName, lastName);
+
+
+    console.log(`6.7 Class
+    클래스`);
+    class Person {
+        // 생성자
+        // 인스턴스 생성, 클래스 필드 초기화를 위한 특수 메소드
+        constructor(_name) {
+            this.name = _name; // 클래스 필드의 선언 + 초기화
+        }
+        #hol_str = 'Bear';
+
+        sayHi(){
+            console.log(`Hi! ${this.name}`);
+        }
+        // getter
+        get hol_str(){
+            return this.#hol_str;
+        }
+        // setter
+        set hol_str(_str){
+            this.#hol_str = _str;
+        }
+    }
+    // 인스턴스 생성
+    const me = new Person('Bobae');
+    me.sayHi();
+    // console.log(me instanceof Person); // true
+
+    console.log('getter, setter');
+    console.log(me.hol_str); // getter
+    me.hol_str = 'Tommy'; // setter
+    console.log(me.hol_str);
+
+    console.log('정적 메소드');
+    class Foo {
+        constructor(_prop) {
+            this.prop = _prop;
+        }
+        static staticMethod (){
+            // 정적 메소드는 this를 사용할 수 없다.
+            // 정적 메소드 내부에서 this는 클래스의 인스턴스가 아닌 클래스 자신을 가리킨다.
+            return 'staticMethod';
+        }
+    }
+    const foo = new Foo('fff');
+    console.log(Foo.staticMethod());
+    // console.log(foo.staticMethod()); // Uncaught TypeError foo.staticMethod is not a function
+    // 클래스의 정적 메소드는 인스턴스로 호출할 수 없다. 이것은 정적 메소드는 this를 사용할 수 없다는 것을 의미한다.
+    // 일반 메소드 내부에서 this는 클래스의 인스턴스를 가리키며,
+    // 메소드 내부에서 this를 사용한다는 것은 클래스의 인스턴스의 생성을 전제로 하는 것이다.
+    // 정적 메소드는 클래스 이름으로 호출하기 때문에 클래스의 인스턴스를 생성하지 않아도 사용할 수 있다.
+    // 단, 정적 메소드는 this를 사용할 수 없다.
+    // 달리 말하면 메소드 내부에서 this를 사용할 필요가 없는 메소드는 정적 메소드로 만들 수 있다.
+    // 정적 메소드는 애플리케이션 전역에서 사용할 유틸리티(utility) 함수를 생성할 때 주로 사용한다.
+
+    console.log('클래스 상속');
+    class Circle {
+        constructor(_radius) {
+            this.radius = _radius;
+        }
+        static staticMethod(){
+            return 'hello Circle'
+        }
+    }
+    class mCircle extends Circle{
+        constructor(_radius, _height) {
+            super(_radius); // super 메소드는 부모 클래스의 constructor를 호출하면서 인수를 전달한다.
+            this.height = _height;
+        }
+        static staticMethod(){
+            return `${super.staticMethod()} child static method override.`
+        }
+    }
+    const myCircle = new mCircle(5, 10);
+
+    console.log(`Circle ... ${Circle.staticMethod()}`);
+    console.log(`mCircle ... ${mCircle.staticMethod()}`);
+
+</script>
+
+</body>
+</html>
