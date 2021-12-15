@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECMAscript6</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    console.log(`symbole은 변경 불가능한 원시 타입의 값
+    이름의 충돌 위험이 없는 유일한 객체의 프로퍼티 키를 만들기 위해 사용`);
+
+    let symbole = Symbol();
+    let mSymbole = Symbol('mySymbol');
+    console.log(symbole);
+    console.log(mSymbole);
+
+    const obj = {};
+    obj.prop = 'properties';
+    obj[123] = 123;
+    obj['prop' + 123] = false;
+    obj[mSymbole] = 123;
+    // Symbol 값도 객체의 프로퍼티 키로 사용할 수 있다.
+    // Symbol 값은 유일한 값이므로 Symbol 값을 키로 갖는 프로퍼티는 다른 어떠한 프로퍼티와도 충돌하지 않는다
+    console.log(obj);
+
+    // Symbol.iterator
+    // 이터러블
+    // Symbol.iterator를 프로퍼티 key로 사용한 메소드를 구현하여야 한다.
+    // 배열에는 Array.prototype[Symbol.iterator] 메소드가 구현되어 있다.
+    const iterable = ['a', 'b', 'c'];
+
+    //1. 심볼과 상수: 자바스크립트에서 enum 사용하기
+    const Direction = Object.freeze({
+        UP: Symbol('up'),
+        DOWN: Symbol('down'),
+        LEFT: Symbol('left'),
+        RIGHT: Symbol('right'),
+    });
+
+</script>
+
+</body>
+</html>
